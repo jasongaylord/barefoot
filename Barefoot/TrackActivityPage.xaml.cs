@@ -84,6 +84,7 @@ namespace Barefoot
             {
                 _lastKnownCoordinate = null;
                 startStopButton.Content = "Pause";
+                _activityDetails.TimeStarted = DateTime.UtcNow;
                 _previousTick = DateTime.UtcNow;
                 _dispatcherTimer.Tick += _dispatcherTimer_Tick;
 
@@ -96,6 +97,9 @@ namespace Barefoot
                 _geoCoordinateWatcher.Stop();
                 _lastKnownCoordinate = null;
                 startStopButton.Content = "Start";
+                _activityDetails.TimeCompleted = DateTime.UtcNow;
+
+                var distance = _activityDetails.Coordinates[_activityDetails.Coordinates.Count - 1].TotalDistance;
 
                 var body = "";
                 var body2 = "";
@@ -108,14 +112,19 @@ namespace Barefoot
                     body2 += coord.TimeStamp.ToLocalTime() + "\nLatitude: " + coord.Latitude.ToString("0.00000") + "\nLongitude: " +
                             coord.Longitude.ToString("0.00000") + "\nSpeed: " + coord.Speed +
                             "\nAltitude: " + coord.Altitude + "\nTotalDistance: " + coord.TotalDistance + "\n\n";
-                    totalDistance = "Total Distance: " + coord.TotalDistance + "\n\n";
                 }
 
+                totalDistance = "Total Distance: " + distance + "\n\n";
+                _activityDetails.TotalDistance = distance;
+                
                 //Send email
                 var task = new EmailComposeTask();
                 task.To = "jason@jasongaylord.com";
                 task.Body = body + totalDistance + body2;
                 task.Show();
+
+                // Write Historical Entry
+
             }
         }
         #endregion
@@ -220,12 +229,12 @@ namespace Barefoot
                 }
                 else
                 {
-                    GeoCoordinate location = new GeoCoordinate();
-                    var immediate = new ImmediateLocation(x => location = x);
-                    immediate.GetLocation();
+                    //GeoCoordinate location = new GeoCoordinate();
+                    //var immediate = new ImmediateLocation(x => location = x);
+                    //immediate.GetLocation();
 
-                    // Change zoom level and set the current point to be the last point
-                    courseMap.Center = location;
+                    //// Change zoom level and set the current point to be the last point
+                    //courseMap.Center = location;
                     courseMap.ZoomLevel = 10;
                 }
             }

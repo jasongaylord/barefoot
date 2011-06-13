@@ -82,6 +82,8 @@ namespace Barefoot
             this.Items.Add(new ItemViewModel() { LineOne = "runtime sixteen", LineTwo = "Nascetur pharetra placerat pulvinar", LineThree = "Pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum" });
 
             this.ActivityList.Add(new ActivityViewModel() {Activity = "running"});
+            this.ActivityList.Add(new ActivityViewModel() { Activity = "biking" });
+            this.ActivityList.Add(new ActivityViewModel() { Activity = "walking" });
 
             this.IsDataLoaded = true;
         }
