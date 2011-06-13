@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Distance.cs" />
+    <Compile Include="Core\HistoryManager.cs" />
     <Compile Include="Core\ImmediateLocation.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

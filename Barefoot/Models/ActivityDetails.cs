@@ -16,6 +16,9 @@ namespace Barefoot.Models
     {
         public List<Coordinate> Coordinates { get; set; }
         public TimeSpan TotalTime { get; set; }
+        public DateTime TimeStarted { get; set; }
+        public DateTime TimeCompleted { get; set; }
+        public double TotalDistance { get; set; }
         public int ActivityType { get; set; }
 
         public ActivityDetails()
