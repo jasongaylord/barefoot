@@ -99,33 +99,38 @@ namespace Barefoot
                 startStopButton.Content = "Start";
                 _activityDetails.TimeCompleted = DateTime.UtcNow;
 
-                var distance = _activityDetails.Coordinates[_activityDetails.Coordinates.Count - 1].TotalDistance;
 
-                var body = "";
-                var body2 = "";
-                var totalDistance = "";
-
-                body += "Total Time: " + _activityDetails.TotalTime + "\n";
-
-                foreach (var coord in _activityDetails.Coordinates)
-                {
-                    body2 += coord.TimeStamp.ToLocalTime() + "\nLatitude: " + coord.Latitude.ToString("0.00000") + "\nLongitude: " +
-                            coord.Longitude.ToString("0.00000") + "\nSpeed: " + coord.Speed +
-                            "\nAltitude: " + coord.Altitude + "\nTotalDistance: " + coord.TotalDistance + "\n\n";
-                }
-
-                totalDistance = "Total Distance: " + distance + "\n\n";
-                _activityDetails.TotalDistance = distance;
-                
-                //Send email
-                var task = new EmailComposeTask();
-                task.To = "jason@jasongaylord.com";
-                task.Body = body + totalDistance + body2;
-                task.Show();
-
+                emailButton.Visibility = Visibility.Visible;
                 // Write Historical Entry
 
             }
+        }
+
+        private void emailButton_Click(object sender, RoutedEventArgs e)
+        {
+            var distance = _activityDetails.Coordinates[_activityDetails.Coordinates.Count - 1].TotalDistance;
+
+            var body = "";
+            var body2 = "";
+            var totalDistance = "";
+
+            body += "Total Time: " + _activityDetails.TotalTime + "\n";
+
+            //foreach (var coord in _activityDetails.Coordinates)
+            //{
+            //    body2 += coord.TimeStamp.ToLocalTime() + "\nLatitude: " + coord.Latitude.ToString("0.00000") + "\nLongitude: " +
+            //            coord.Longitude.ToString("0.00000") + "\nSpeed: " + coord.Speed +
+            //            "\nAltitude: " + coord.Altitude + "\nTotalDistance: " + coord.TotalDistance + "\n\n";
+            //}
+
+            totalDistance = "Total Distance: " + distance + "\n\n";
+            _activityDetails.TotalDistance = distance;
+
+            //Send email
+            var task = new EmailComposeTask();
+            task.To = "jason@jasongaylord.com";
+            task.Body = body + totalDistance + body2;
+            task.Show();
         }
         #endregion
 
