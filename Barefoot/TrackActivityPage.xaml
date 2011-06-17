@@ -40,6 +40,7 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Height="30" Name="speedText" Text="Speed:" VerticalAlignment="Center" />
                     <TextBox Grid.Row="2" Grid.Column="1" Height="72" Name="speedTextBox" Text="" VerticalAlignment="Center" Width="337" />
                     <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  Content="Start" Height="72" HorizontalAlignment="Center" Name="startStopButton" VerticalAlignment="Center" Width="160" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="startStopButton_Click" />
+                    <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Content="Email" Height="72" Visibility="Collapsed" HorizontalAlignment="Center" Name="emailButton" VerticalAlignment="Center" Width="160" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="emailButton_Click" />
                 </Grid>
             </controls:PivotItem>
 
