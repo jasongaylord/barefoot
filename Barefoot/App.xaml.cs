@@ -198,7 +198,11 @@ namespace Barefoot
 
         void LoadUserHistory()
         {
-            
+            var userStore = IsolatedStorageFile.GetUserStoreForApplication();
+            foreach (var file in userStore.GetFileNames())
+            {
+                MessageBox.Show(file);
+            }
         }
 
         void SaveUserHistory()

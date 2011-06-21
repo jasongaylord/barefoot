@@ -59,11 +59,19 @@ namespace Barefoot.Core
             gps.trk = new trkType[1];
             gps.trk[0] = trk;
 
-            IsolatedStorageFile userStore = IsolatedStorageFile.GetUserStoreForApplication();
-            var writer = (!userStore.FileExists("test.xml"))
-                             ? userStore.CreateFile("test.xml")
-                             : userStore.OpenFile("test.xml", FileMode.Truncate);
+            // Determine activity type
 
+
+            // Build file name {0:MM/dd/yy H:mm:ss zzz}", 
+            var date = String.Format("{0:yyyyMMdd}", metadata.time);
+            var time = String.Format("{0:HHmm}", metadata.time);
+            var filename = date + details.ActivityType.ToString() + time + ".xml";
+
+            // Save file
+            IsolatedStorageFile userStore = IsolatedStorageFile.GetUserStoreForApplication();
+            var writer = (!userStore.FileExists(filename))
+                             ? userStore.CreateFile(filename)
+                             : userStore.OpenFile(filename, FileMode.Truncate);
             //var writer = new FileStream("test1.gpx", FileMode.Create);
             
             var xmlSerializer = new XmlSerializer(typeof(gpx.gpxType));
