@@ -22,6 +22,7 @@ namespace Barefoot
         private Coordinate _lastKnownCoordinate;
         private DateTime _previousTick;
         private double _distance;
+        private bool tossFirst;
         #endregion
 
         #region Constructor
@@ -83,6 +84,7 @@ namespace Barefoot
             if (startStopButton.Content.ToString().ToLower() == "start")
             {
                 _lastKnownCoordinate = null;
+                tossFirst = true;
                 startStopButton.Content = "Pause";
                 _activityDetails.TimeStarted = DateTime.UtcNow;
                 _previousTick = DateTime.UtcNow;
@@ -101,8 +103,10 @@ namespace Barefoot
 
 
                 emailButton.Visibility = Visibility.Visible;
-                // Write Historical Entry
 
+                // Write Historical Entry
+                var data = new Gpx();
+                data.Save(_activityDetails);
             }
         }
 
@@ -167,34 +171,43 @@ namespace Barefoot
 
         private void _geoCoordinateWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            var epl = e.Position.Location;
-
-            var coord = new Coordinate();
-            coord.Altitude = epl.Altitude;
-            coord.Course = epl.Course;
-            coord.HorizontalAccuracy = epl.HorizontalAccuracy;
-            coord.Latitude = epl.Latitude;
-            coord.Longitude = epl.Longitude;
-            coord.Speed = epl.Speed;
-            coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
-            coord.VerticalAccuracy = epl.VerticalAccuracy;
-            // Calculate distance
-            if (_lastKnownCoordinate == null)
+            if (!tossFirst)
             {
-                coord.DistanceFromLastCall = 0;
-                coord.TotalDistance = 0;
-            } else {
-                coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
-                coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
+                var epl = e.Position.Location;
+
+                var coord = new Coordinate();
+                coord.Altitude = epl.Altitude;
+                coord.Course = epl.Course;
+                coord.HorizontalAccuracy = epl.HorizontalAccuracy;
+                coord.Latitude = epl.Latitude;
+                coord.Longitude = epl.Longitude;
+                coord.Speed = epl.Speed;
+                coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
+                coord.VerticalAccuracy = epl.VerticalAccuracy;
+                // Calculate distance
+                if (_lastKnownCoordinate == null)
+                {
+                    coord.DistanceFromLastCall = 0;
+                    coord.TotalDistance = 0;
+                }
+                else
+                {
+                    coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
+                    coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
+                }
+
+                // Add coordinate and set last known
+                _distance = coord.TotalDistance;
+                _lastKnownCoordinate = coord;
+                _activityDetails.Coordinates.Add(coord);
+
+                // Update UI
+                distanceTextBox.Text = String.Format("{0:0.00}", coord.TotalDistance); //coord.TotalDistance.ToString();
             }
-
-            // Add coordinate and set last known
-            _distance = coord.TotalDistance;
-            _lastKnownCoordinate = coord;
-            _activityDetails.Coordinates.Add(coord);
-
-            // Update UI
-            distanceTextBox.Text = coord.TotalDistance.ToString();
+            else
+            {
+                tossFirst = false;
+            }
         }
         #endregion
 
@@ -223,7 +236,7 @@ namespace Barefoot
 
                     // Change zoom level and set the current point to be the last point
                     courseMap.Center = _locations[_locations.Count - 1];
-                    courseMap.ZoomLevel = 10;
+                    courseMap.ZoomLevel = 17;
 
                     // Add a map layer in which to draw the route.
                     MapLayer myRouteLayer = new MapLayer();
@@ -240,7 +253,7 @@ namespace Barefoot
 
                     //// Change zoom level and set the current point to be the last point
                     //courseMap.Center = location;
-                    courseMap.ZoomLevel = 10;
+                    courseMap.ZoomLevel = 17;
                 }
             }
         }
