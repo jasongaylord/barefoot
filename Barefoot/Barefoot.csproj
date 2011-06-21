@@ -60,12 +60,16 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Distance.cs" />
+    <Compile Include="Core\gps.cs" />
+    <Compile Include="Core\Gpx.cs" />
     <Compile Include="Core\HistoryManager.cs" />
     <Compile Include="Core\ImmediateLocation.cs" />
     <Compile Include="MainPage.xaml.cs">
