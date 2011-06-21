@@ -22,7 +22,6 @@ namespace Barefoot
         private Coordinate _lastKnownCoordinate;
         private DateTime _previousTick;
         private double _distance;
-        private bool tossFirst;
         #endregion
 
         #region Constructor
@@ -84,7 +83,6 @@ namespace Barefoot
             if (startStopButton.Content.ToString().ToLower() == "start")
             {
                 _lastKnownCoordinate = null;
-                tossFirst = true;
                 startStopButton.Content = "Pause";
                 _activityDetails.TimeStarted = DateTime.UtcNow;
                 _previousTick = DateTime.UtcNow;
@@ -148,7 +146,7 @@ namespace Barefoot
             {
                 var secondsPerMile = new TimeSpan(0, 0, 0, System.Convert.ToInt32(delta.TotalSeconds / _distance));
                 //speedTextBox.Text = secondsPerMile.ToString("'mm':'ss'");
-                speedTextBox.Text = secondsPerMile.ToString();
+                speedWidget.Text = secondsPerMile.ToString();
                 //speedTextBox.Text = delta.ToString();
                 //stopWatchText.Text = _activityDetails.TotalTime.ToString();
             }
@@ -171,43 +169,36 @@ namespace Barefoot
 
         private void _geoCoordinateWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
-            if (!tossFirst)
+            var epl = e.Position.Location;
+
+            var coord = new Coordinate();
+            coord.Altitude = epl.Altitude;
+            coord.Course = epl.Course;
+            coord.HorizontalAccuracy = epl.HorizontalAccuracy;
+            coord.Latitude = epl.Latitude;
+            coord.Longitude = epl.Longitude;
+            coord.Speed = epl.Speed;
+            coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
+            coord.VerticalAccuracy = epl.VerticalAccuracy;
+            // Calculate distance
+            if (_lastKnownCoordinate == null)
             {
-                var epl = e.Position.Location;
-
-                var coord = new Coordinate();
-                coord.Altitude = epl.Altitude;
-                coord.Course = epl.Course;
-                coord.HorizontalAccuracy = epl.HorizontalAccuracy;
-                coord.Latitude = epl.Latitude;
-                coord.Longitude = epl.Longitude;
-                coord.Speed = epl.Speed;
-                coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
-                coord.VerticalAccuracy = epl.VerticalAccuracy;
-                // Calculate distance
-                if (_lastKnownCoordinate == null)
-                {
-                    coord.DistanceFromLastCall = 0;
-                    coord.TotalDistance = 0;
-                }
-                else
-                {
-                    coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
-                    coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
-                }
-
-                // Add coordinate and set last known
-                _distance = coord.TotalDistance;
-                _lastKnownCoordinate = coord;
-                _activityDetails.Coordinates.Add(coord);
-
-                // Update UI
-                distanceTextBox.Text = String.Format("{0:0.00}", coord.TotalDistance); //coord.TotalDistance.ToString();
+                coord.DistanceFromLastCall = 0;
+                coord.TotalDistance = 0;
             }
             else
             {
-                tossFirst = false;
+                coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
+                coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
             }
+
+            // Add coordinate and set last known
+            _distance = coord.TotalDistance;
+            _lastKnownCoordinate = coord;
+            _activityDetails.Coordinates.Add(coord);
+
+            // Update UI
+            distanceWidget.Text = String.Format("{0:0.00}", coord.TotalDistance);
         }
         #endregion
 
@@ -244,6 +235,9 @@ namespace Barefoot
 
                     // Add the route line to the new layer.
                     myRouteLayer.Children.Add(routeLine);
+
+                    // Center the coordinates and get the proper view
+                    courseMap.SetView(LocationRect.CreateLocationRect(_locations));
                 }
                 else
                 {
