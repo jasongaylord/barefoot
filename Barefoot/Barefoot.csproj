@@ -128,7 +128,7 @@
   <ItemGroup>
     <Resource Include="Application_IconImage_62x62.png" />
     <Resource Include="Application_TileImage_173x173.png" />
-    <Resource Include="PanoramaRunningBackground.jpg" />
+    <Resource Include="JoggerRunning.jpg" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />
