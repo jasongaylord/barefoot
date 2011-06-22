@@ -33,11 +33,11 @@ namespace Barefoot.Core
             foreach (var coord in details.Coordinates)
             {
                 var trkpt = new wptType();
-                trkpt.lat = Convert.ToDecimal(coord.Latitude);
-                trkpt.lon = Convert.ToDecimal(coord.Longitude);
-                trkpt.ele = Convert.ToDecimal(coord.Altitude);
-                trkpt.hdop = Convert.ToDecimal(coord.HorizontalAccuracy);
-                trkpt.vdop = Convert.ToDecimal(coord.VerticalAccuracy);
+                trkpt.lat = DecimalHelper.TryParse(coord.Latitude);
+                trkpt.lon = DecimalHelper.TryParse(coord.Longitude);
+                trkpt.ele = DecimalHelper.TryParse(coord.Altitude);
+                trkpt.hdop = DecimalHelper.TryParse(coord.HorizontalAccuracy);
+                trkpt.vdop = DecimalHelper.TryParse(coord.VerticalAccuracy);
                 trkpt.time = coord.TimeStamp;
 
                 wpt[x] = trkpt;
