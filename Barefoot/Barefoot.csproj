@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\ActivitySummary.cs" />
+    <Compile Include="Core\DecimalHelper.cs" />
     <Compile Include="Core\Distance.cs" />
     <Compile Include="Core\gps.cs" />
     <Compile Include="Core\Gpx.cs" />

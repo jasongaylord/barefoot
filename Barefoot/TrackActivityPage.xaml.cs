@@ -224,8 +224,8 @@ namespace Barefoot
                     routeLine.StrokeThickness = 5.0;
 
                     // Change zoom level and set the current point to be the last point
-                    courseMap.Center = _locations[_locations.Count - 1];
-                    courseMap.ZoomLevel = 17;
+                    //courseMap.Center = _locations[_locations.Count - 1];
+                    //courseMap.ZoomLevel = 17;
 
                     // Add a map layer in which to draw the route.
                     MapLayer myRouteLayer = new MapLayer();
