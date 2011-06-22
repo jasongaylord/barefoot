@@ -21,7 +21,7 @@
         <!--Panorama control-->
         <controls:Panorama Title="barefoot">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="PanoramaRunningBackground.jpg"/>
+                <ImageBrush ImageSource="JoggerRunning.jpg"/>
             </controls:Panorama.Background>
 
             <!--Panorama item one-->
