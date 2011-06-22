@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
@@ -179,6 +180,15 @@ namespace Barefoot
             if (userStore.FileExists("userHistory.xml"))
             {
                 LoadUserHistory();
+            }
+            
+            if (!userStore.DirectoryExists("History"))
+            {
+                userStore.CreateDirectory("History");
+                foreach (var file in userStore.GetFileNames("2011*.xml"))
+                {
+                    // Move the files over to History
+                }
             }
             //Color clr;
             //if (settings.TryGetValue<Color>("backgroundColor", out clr))

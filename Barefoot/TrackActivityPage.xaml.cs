@@ -145,10 +145,7 @@ namespace Barefoot
             if (_distance > 0)
             {
                 var secondsPerMile = new TimeSpan(0, 0, 0, System.Convert.ToInt32(delta.TotalSeconds / _distance));
-                //speedTextBox.Text = secondsPerMile.ToString("'mm':'ss'");
-                speedWidget.Text = secondsPerMile.ToString();
-                //speedTextBox.Text = delta.ToString();
-                //stopWatchText.Text = _activityDetails.TotalTime.ToString();
+                paceWidget.Text = secondsPerMile.ToString();
             }
         }
         #endregion
@@ -171,34 +168,37 @@ namespace Barefoot
         {
             var epl = e.Position.Location;
 
-            var coord = new Coordinate();
-            coord.Altitude = epl.Altitude;
-            coord.Course = epl.Course;
-            coord.HorizontalAccuracy = epl.HorizontalAccuracy;
-            coord.Latitude = epl.Latitude;
-            coord.Longitude = epl.Longitude;
-            coord.Speed = epl.Speed;
-            coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
-            coord.VerticalAccuracy = epl.VerticalAccuracy;
-            // Calculate distance
-            if (_lastKnownCoordinate == null)
+            if (epl.HorizontalAccuracy < 7 && epl.VerticalAccuracy < 7)
             {
-                coord.DistanceFromLastCall = 0;
-                coord.TotalDistance = 0;
-            }
-            else
-            {
-                coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
-                coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
-            }
+                var coord = new Coordinate();
+                coord.Altitude = epl.Altitude;
+                coord.Course = epl.Course;
+                coord.HorizontalAccuracy = epl.HorizontalAccuracy;
+                coord.Latitude = epl.Latitude;
+                coord.Longitude = epl.Longitude;
+                coord.Speed = epl.Speed;
+                coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
+                coord.VerticalAccuracy = epl.VerticalAccuracy;
+                // Calculate distance
+                if (_lastKnownCoordinate == null)
+                {
+                    coord.DistanceFromLastCall = 0;
+                    coord.TotalDistance = 0;
+                }
+                else
+                {
+                    coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
+                    coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
+                }
 
-            // Add coordinate and set last known
-            _distance = coord.TotalDistance;
-            _lastKnownCoordinate = coord;
-            _activityDetails.Coordinates.Add(coord);
+                // Add coordinate and set last known
+                _distance = coord.TotalDistance;
+                _lastKnownCoordinate = coord;
+                _activityDetails.Coordinates.Add(coord);
 
-            // Update UI
-            distanceWidget.Text = String.Format("{0:0.00}", coord.TotalDistance);
+                // Update UI
+                distanceWidget.Text = String.Format("{0:0.00}", coord.TotalDistance);
+            }
         }
         #endregion
 

@@ -36,9 +36,12 @@
                     </Grid.ColumnDefinitions>
                     <uc:TimeSpanDisplay Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="60" FontWeight="SemiBold" x:Name="stopWatchDisplay" DigitWidth="47" />
                     
-                    <uc:DetailWidget Grid.Row="1" Grid.Column="0" Caption="distance" Text="0.00" x:Name="distanceWidget" />
-                    <uc:DetailWidget Grid.Row="1" Grid.Column="1" Caption="speed" Text="0:00" x:Name="speedWidget" />
+                    <uc:DetailWidget Grid.Row="1" Grid.Column="0" Caption="distance (mi)" Text="0.00" x:Name="distanceWidget" />
+                    <uc:DetailWidget Grid.Row="1" Grid.Column="1" Caption="pace (mi/min)" Text="0:00" x:Name="paceWidget" />
 
+                    <uc:DetailWidget Grid.Row="2" Grid.Column="0" Caption="calories" Text="0" x:Name="calorieWidget" />
+                    <uc:DetailWidget Grid.Row="2" Grid.Column="1" Caption="altitude (gain/loss)" Text="0" x:Name="altitudeWidget" />
+                    
                     <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  Content="Start" Height="72" HorizontalAlignment="Center" Name="startStopButton" VerticalAlignment="Center" Width="160" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="startStopButton_Click" />
                     <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Content="Email" Height="72" Visibility="Collapsed" HorizontalAlignment="Center" Name="emailButton" VerticalAlignment="Center" Width="160" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="emailButton_Click" />
                 </Grid>
@@ -47,7 +50,18 @@
             <!--Pivot item two-->
             <controls:PivotItem Header="map">
                 <Grid>
-                    <my:Map Name="courseMap" Mode="Aerial" CredentialsProvider="AgLxiaDWEeFZc1FyMJHLV3lyXGBxfZ6K6251n5rxlrL8d0MH7__JISBg-mzL7kGr" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="140*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <my:Map Name="courseMap" Grid.RowSpan="2" Grid.ColumnSpan="3" Mode="Aerial" CredentialsProvider="AgLxiaDWEeFZc1FyMJHLV3lyXGBxfZ6K6251n5rxlrL8d0MH7__JISBg-mzL7kGr" />
+                    <Button Grid.Row="0" Grid.Column="0" Content="Aerial" Height="60" Name="mapViewAerial" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" />
+                    <Button Grid.Row="0" Grid.Column="1" Content="Street" Height="60" Name="mapViewStreet" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" />
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>

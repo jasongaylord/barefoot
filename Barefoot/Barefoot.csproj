@@ -67,12 +67,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\ActivitySummary.cs" />
     <Compile Include="Core\Distance.cs" />
     <Compile Include="Core\gps.cs" />
     <Compile Include="Core\Gpx.cs" />
     <Compile Include="Core\HistoryManager.cs" />
     <Compile Include="Core\ImmediateLocation.cs" />
-    <Compile Include="DetailWidget.xaml.cs">
+    <Compile Include="UserControls\DetailWidget.xaml.cs">
       <DependentUpon>DetailWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
@@ -81,7 +82,7 @@
     <Compile Include="Models\ActivityDetails.cs" />
     <Compile Include="Models\Coordinate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TimeSpanDisplay.xaml.cs">
+    <Compile Include="UserControls\TimeSpanDisplay.xaml.cs">
       <DependentUpon>TimeSpanDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="TrackActivityPage.xaml.cs">
@@ -96,7 +97,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="DetailWidget.xaml">
+    <Page Include="UserControls\DetailWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,7 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="TimeSpanDisplay.xaml">
+    <Page Include="UserControls\TimeSpanDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
