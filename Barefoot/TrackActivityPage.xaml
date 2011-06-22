@@ -51,17 +51,17 @@
             <controls:PivotItem Header="map">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="140" />
-                        <RowDefinition Height="140*" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <my:Map Name="courseMap" Grid.RowSpan="2" Grid.ColumnSpan="3" Mode="Aerial" CredentialsProvider="AgLxiaDWEeFZc1FyMJHLV3lyXGBxfZ6K6251n5rxlrL8d0MH7__JISBg-mzL7kGr" />
-                    <Button Grid.Row="0" Grid.Column="0" Content="Aerial" Height="60" Name="mapViewAerial" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" />
-                    <Button Grid.Row="0" Grid.Column="1" Content="Street" Height="60" Name="mapViewStreet" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" />
+                    <my:Map Name="courseMap" Grid.RowSpan="2" Grid.ColumnSpan="3" Mode="Road" CredentialsProvider="AgLxiaDWEeFZc1FyMJHLV3lyXGBxfZ6K6251n5rxlrL8d0MH7__JISBg-mzL7kGr" />
+                    <Button Grid.Row="0" Grid.Column="0" Content="Aerial" Height="60" Name="mapViewAerial" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="mapViewAerial_Click" />
+                    <Button Grid.Row="0" Grid.Column="1" Content="Road" Height="60" Name="mapViewRoad" Width="100" Opacity="0.7" FontSize="{StaticResource PhoneFontSizeSmall}" Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" Foreground="{StaticResource PhoneBorderBrush}" Click="mapViewRoad_Click" />
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>

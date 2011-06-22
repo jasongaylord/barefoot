@@ -9,6 +9,7 @@ using Barefoot.Core;
 using Barefoot.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Controls.Maps;
+using Microsoft.Phone.Controls.Maps.Core;
 using Microsoft.Phone.Tasks;
 
 namespace Barefoot
@@ -168,37 +169,34 @@ namespace Barefoot
         {
             var epl = e.Position.Location;
 
-            if (epl.HorizontalAccuracy < 7 && epl.VerticalAccuracy < 7)
+            var coord = new Coordinate();
+            coord.Altitude = epl.Altitude;
+            coord.Course = epl.Course;
+            coord.HorizontalAccuracy = epl.HorizontalAccuracy;
+            coord.Latitude = epl.Latitude;
+            coord.Longitude = epl.Longitude;
+            coord.Speed = epl.Speed;
+            coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
+            coord.VerticalAccuracy = epl.VerticalAccuracy;
+            // Calculate distance
+            if (_lastKnownCoordinate == null)
             {
-                var coord = new Coordinate();
-                coord.Altitude = epl.Altitude;
-                coord.Course = epl.Course;
-                coord.HorizontalAccuracy = epl.HorizontalAccuracy;
-                coord.Latitude = epl.Latitude;
-                coord.Longitude = epl.Longitude;
-                coord.Speed = epl.Speed;
-                coord.TimeStamp = e.Position.Timestamp.LocalDateTime;
-                coord.VerticalAccuracy = epl.VerticalAccuracy;
-                // Calculate distance
-                if (_lastKnownCoordinate == null)
-                {
-                    coord.DistanceFromLastCall = 0;
-                    coord.TotalDistance = 0;
-                }
-                else
-                {
-                    coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
-                    coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
-                }
-
-                // Add coordinate and set last known
-                _distance = coord.TotalDistance;
-                _lastKnownCoordinate = coord;
-                _activityDetails.Coordinates.Add(coord);
-
-                // Update UI
-                distanceWidget.Text = String.Format("{0:0.00}", coord.TotalDistance);
+                coord.DistanceFromLastCall = 0;
+                coord.TotalDistance = 0;
             }
+            else
+            {
+                coord.DistanceFromLastCall = Core.Distance.Calculate(_lastKnownCoordinate, coord);
+                coord.TotalDistance = _lastKnownCoordinate.TotalDistance + coord.DistanceFromLastCall;
+            }
+
+            // Add coordinate and set last known
+            _distance = coord.TotalDistance;
+            _lastKnownCoordinate = coord;
+            _activityDetails.Coordinates.Add(coord);
+
+            // Update UI
+            distanceWidget.Text = String.Format("{0:0.00}", coord.TotalDistance);
         }
         #endregion
 
@@ -251,6 +249,17 @@ namespace Barefoot
                 }
             }
         }
+
+        private void mapViewAerial_Click(object sender, RoutedEventArgs e)
+        {
+            courseMap.Mode = new AerialMode();
+        }
+
+        private void mapViewRoad_Click(object sender, RoutedEventArgs e)
+        {
+            courseMap.Mode = new RoadMode();
+        }
         #endregion
+
     }
 }
