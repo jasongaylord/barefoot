@@ -78,6 +78,8 @@ namespace Barefoot.Core
             xmlSerializer.Serialize(writer, gps);
 
             writer.Close();
+
+            // Add the item to the ActivitySumamry list
         }
     }
 }
